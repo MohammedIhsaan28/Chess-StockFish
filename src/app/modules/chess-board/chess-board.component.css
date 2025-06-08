@@ -2,8 +2,8 @@
     display: flex;
     justify-content: center;
     flex-direction: column-reverse;
-    width: 480px;
-    height: 480px;
+    align-items: center;
+
 }
 
 .rotated {
@@ -15,15 +15,60 @@
     flex-direction: row;
 }
 
+/* Base: smallest (mobile-first) */
 .square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+  border: 1px solid white;
+  background-color: white;
+}
+
+/* Small screens ≥ 640px */
+@media (min-width: 640px) {
+  .square {
+    height: 50px;
+    width: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+
+/* Medium screens ≥ 768px */
+@media (min-width: 768px) {
+  .square {
     height: 60px;
     width: 60px;
-    cursor: pointer;
-    border: 1px solid white;
-    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+/* Large screens ≥ 1024px */
+@media (min-width: 1024px) {
+  .square {
+    height: 60px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+/* Extra large screens ≥ 1280px */
+@media (min-width: 1280px) {
+  .square {
+    height: 60px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 

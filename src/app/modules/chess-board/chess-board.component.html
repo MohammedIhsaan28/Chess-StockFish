@@ -1,6 +1,9 @@
-<div class="chess-board relative max-w-full mx-auto p-2 mt-6" [ngClass]="{'rotated': flipMode}">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<div class="chess-board relative max-w-full mx-auto  p-2 mt-6 " [ngClass]="{'rotated': flipMode}">
     <div *ngFor="let row of chessBoardView; let x = index" class="row grid grid-cols-8 gap-0">
-        <div *ngFor="let piece of row; let y = index" class="square relative flex justify-center items-center w-16 h-16 sm:h-20 md:h-24 lg:h-32 cursor-pointer transition-all duration-300" [ngClass]="{'dark': isSquareDark(x, y), 
+        <div *ngFor="let piece of row; let y = index" class="square relative flex justify-center items-center cursor-pointer transition-all duration-300" [ngClass]="{'dark': isSquareDark(x, y), 
             'light':!isSquareDark(x, y),
             'selected-square': isSquareSelected(x, y),
             'last-move': isSquareLastMove(x, y),
@@ -14,7 +17,7 @@
 
             <div [ngClass]="{'safe-square': isSquareSafeForSelectedPiece(x, y)}"></div>
 
-            <img *ngIf="piece" [src]="pieceImagePaths[piece]" [alt]="piece" class="piece  w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20"
+            <img *ngIf="piece" [src]="pieceImagePaths[piece]" [alt]="piece" class="piece  w-12 h-12 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-20 lg:h-20"
                 [ngClass]="{'rotated': flipMode}">
         </div>
     </div>
