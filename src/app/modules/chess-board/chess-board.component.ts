@@ -5,6 +5,7 @@ import { SelectedSquare } from './models';
 import { ChessBoardService } from './chess-board.service';
 import { Subscription, filter, fromEvent, tap } from 'rxjs';
 import { FENConverter } from 'src/app/chess-logic/FENConverter';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Component({
   selector: 'app-chess-board',
@@ -41,10 +42,23 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
 
   public flipMode: boolean = false;
   private subscriptions$ = new Subscription();
+  public room: string = '';
+  public isMultiplayer: boolean = false;
 
-  constructor(protected chessBoardService: ChessBoardService) { }
+  constructor(
+    protected chessBoardService: ChessBoardService,
+    private socketService: SocketService
+  ) { }
 
   public ngOnInit(): void {
+    if (this.isMultiplayer) {
+      this.socketService.joinRoom(this.room);
+      this.socketService.onMove().subscribe((move: any) => {
+        this.chessBoard.move(move.prevX, move.prevY, move.newX, move.newY, move.promotedPiece);
+        this.chessBoardView = this.chessBoard.chessBoardView;
+        this.markLastMoveAndCheckState(this.chessBoard.lastMove, this.chessBoard.checkState);
+      });
+    }
     const keyEventSubscription$: Subscription = fromEvent<KeyboardEvent>(document, "keyup")
       .pipe(
         filter(event => event.key === "ArrowRight" || event.key === "ArrowLeft"),
@@ -154,6 +168,9 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
   }
 
   protected updateBoard(prevX: number, prevY: number, newX: number, newY: number, promotedPiece: FENChar | null): void {
+    if (this.isMultiplayer) {
+      this.socketService.sendMove(this.room, { prevX, prevY, newX, newY, promotedPiece });
+    }
     this.chessBoard.move(prevX, prevY, newX, newY, promotedPiece);
     this.chessBoardView = this.chessBoard.chessBoardView;
     this.markLastMoveAndCheckState(this.chessBoard.lastMove, this.chessBoard.checkState);

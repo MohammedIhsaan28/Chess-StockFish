@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ChessBoardComponent } from '../chess-board/chess-board.component';
 import { StockfishService } from './stockfish.service';
 import { ChessBoardService } from '../chess-board/chess-board.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { Subscription, firstValueFrom } from 'rxjs';
 import { Color } from 'src/app/chess-logic/models';
 
@@ -14,7 +15,7 @@ export class ComputerModeComponent extends ChessBoardComponent implements OnInit
   private computerSubscriptions$ = new Subscription();
 
   constructor(private stockfishService: StockfishService) {
-    super(inject(ChessBoardService));
+    super(inject(ChessBoardService), inject(SocketService));
   }
 
   public override ngOnInit(): void {

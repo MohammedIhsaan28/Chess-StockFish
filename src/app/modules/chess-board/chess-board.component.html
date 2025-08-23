@@ -1,7 +1,14 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<div class="chess-board relative max-w-full mx-auto  p-2 mt-6 " [ngClass]="{'rotated': flipMode}">
+<div *ngIf="!isMultiplayer" class="flex justify-center items-center h-screen">
+    <div class="flex flex-col gap-4">
+        <input type="text" [(ngModel)]="room" placeholder="Enter Room ID" class="p-2 border rounded">
+        <button (click)="isMultiplayer = true; ngOnInit()" class="p-2 bg-blue-500 text-white rounded">Join Room</button>
+    </div>
+</div>
+
+<div *ngIf="isMultiplayer" class="chess-board relative max-w-full mx-auto  p-2 mt-6 " [ngClass]="{'rotated': flipMode}">
     <div *ngFor="let row of chessBoardView; let x = index" class="row grid grid-cols-8 gap-0">
         <div *ngFor="let piece of row; let y = index" class="square relative flex justify-center items-center cursor-pointer transition-all duration-300" [ngClass]="{'dark': isSquareDark(x, y), 
             'light':!isSquareDark(x, y),
